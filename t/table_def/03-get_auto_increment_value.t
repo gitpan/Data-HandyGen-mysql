@@ -1,15 +1,19 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More;
 use DBI;
 
 use Data::HandyGen::mysql;
 use Data::HandyGen::mysql::TableDef;
 use Test::mysqld;
 
+plan skip_all => 'mysql_install_db not found'
+    unless `which mysql_install_db 2>/dev/null`;
 
 main();
+done_testing();
+
 exit(0);
 
 
@@ -20,7 +24,6 @@ sub main {
     my $dbh = DBI->connect($mysqld->dsn(dbname => 'test'))
         or die $DBI::errstr;
         
-    $dbh->do(q{SET GLOBAL log = 1});
     test_table_with_auto_increment_col($dbh);
     test_table_with_no_auto_increment_col($dbh);
     

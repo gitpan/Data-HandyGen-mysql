@@ -3,14 +3,18 @@
 use strict;
 use warnings;
 
-use Test::More tests => 14;
+use Test::More;
 use DBI;
 use Test::mysqld;
 
 use Data::HandyGen::mysql;
 
+plan skip_all => 'mysql_install_db not found'
+    unless `which mysql_install_db 2>/dev/null`;
 
 main();
+done_testing();
+
 exit(0);
 
 
